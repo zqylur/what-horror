@@ -4,17 +4,19 @@
   "description": "What nonsense has Trump spewed today?",
   "main": "index.js",
   "scripts": {
-    "start": "babel src -d dist && node dist/index.js",
-    "watch": "babel-watch src/index.js",
-    "build": "babel src -d dist",
-    "validate:lint": "eslint ./src; exit 0",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel src/index.js --out-file src/apps/what-horror/index.js",
+    "server": "node src/server.js",
+    "start": "npm run build && npm run copyConfig && npm run generateSkillPackageJSON && npm run server",
+    "generateSkillPackageJSON": "node src/generate-minimal-skill-package-json",
+    "copyConfig": "cp config/config.json src/apps/what-horror",
+    "subDirNpmInstall": "npm --prefix src/apps/what-horror install src/apps/what-horror",
+    "zipSkillPackage": "cd src/apps/what-horror/ && zip -r whatHorror.zip ./*",
+    "release": "npm run generateSkillPackageJSON && npm run build && npm run subDirNpmInstall && npm run copyConfig && npm run zipSkillPackage"
   },
   "author": "zweiler",
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.22.2",
-    "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.10",
     "babel-plugin-transform-async-to-generator": "^6.22.0",
@@ -30,7 +32,10 @@
     "eslint-plugin-jsx-a11y": "^4.0.0"
   },
   "dependencies": {
-    "babel-polyfill": "^6.22.0",
+    "alexa-app": "^3.0.0",
+    "alexa-app-server": "^3.0.0",
+    "alexa-sdk": "^1.0.6",
+    "babel-core": "^6.22.1",
     "twitter-node-client": "0.0.6"
   }
 }

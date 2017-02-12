@@ -31,4 +31,7 @@ bower_components/
 **/.DS_Store
 
 # Twitter configuration
-api-config/config.json
+config/config.json
+
+# Generated release directory
+src/apps/what-horror/*
